@@ -100,4 +100,40 @@ class Vacasito_Admin {
 
 	}
 
+	public function create_table() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'vacasito_data';
+		$charset_collate = $wpdb->get_charset_collate();
+	
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			name varchar(255) DEFAULT '' NOT NULL,
+			address varchar(255) DEFAULT '' NOT NULL,
+			city varchar(100) DEFAULT '' NOT NULL,
+			state varchar(100) DEFAULT '' NOT NULL,
+			zip varchar(10) DEFAULT '' NOT NULL,
+			country varchar(100) DEFAULT '' NOT NULL,
+			google_star_rating float DEFAULT 0 NOT NULL,
+			google_review_count int DEFAULT 0 NOT NULL,
+			location_type varchar(100) DEFAULT '' NOT NULL,
+			review text DEFAULT '' NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
+	
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		dbDelta($sql);
+	}
+
+	public function add_admin_menu() {
+		add_menu_page('Vacasito Data', 'Vacasito Data', 'manage_options', 'vacasito-data', array($this, 'display_admin_page'));
+	}
+	
+	public function display_admin_page() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'vacasito_data';
+		$results = $wpdb->get_results("SELECT * FROM $table_name");
+	
+		// Display the data in a table format here
+	}	
+
 }
