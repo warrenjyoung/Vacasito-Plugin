@@ -128,36 +128,12 @@ class Vacasito_Admin {
 		add_menu_page('Vacasito Data', 'Vacasito Data', 'manage_options', 'vacasito-data', array($this, 'display_admin_page'));
 	}
 	
+	public function display_admin_page() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'vacasito_data';
+		$results = $wpdb->get_results("SELECT * FROM $table_name");
+	
+		// Display the data in a table format here
+	}	
 
-
-
-public function display_admin_page() {
-		// Include the necessary files for WP_List_Table
-if (!class_exists('WP_List_Table')) {
-    require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
-}
-
-    $list_table = new Vacasito_Data_List();
-    $list_table->prepare_items();
-    $list_table->display();
-}	
-
-}
-
-class Vacasito_Data_List extends WP_List_Table {
-    // Define columns
-    function get_columns() {
-        return array(
-            'name' => 'Name',
-            'address' => 'Address',
-            // ... add other columns as needed
-        );
-    }
-
-    // Fetch and prepare data
-    function prepare_items() {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'vacasito_data';
-        $this->items = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
-    }
 }
